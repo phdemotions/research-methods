@@ -1,8 +1,8 @@
 # research-methods — Status
 
 > **Last Updated:** 2026-04-10
-> **Phase:** Phase 1 complete, Phase 2 next
-> **Build:** Clean (all committed, pushed to GitHub)
+> **Phase:** Phase 2 complete, Phase 3 next
+> **Build:** Clean
 
 ---
 
@@ -10,11 +10,11 @@
 
 | Attribute | Value |
 |-----------|-------|
-| **Version** | 0.1.0 (pre-release) |
+| **Version** | 0.2.0 (pre-release) |
 | **Build Status** | Clean |
 | **Open Issues** | P0: 0, P1: 0, P2: 0, P3: 0 |
 | **Repo** | github.com/phdemotions/research-methods |
-| **Commits** | 4 on main |
+| **Commits** | 7 on main |
 
 ---
 
@@ -26,22 +26,20 @@
 
 ## What's Done (Latest Session)
 
-### 2026-04-10 — Phase 1 Foundation Skills + Distribution Strategy
+### 2026-04-10 — Phase 2 Analysis Core
 
-**Phase 1A-1F completed:**
-- 3 shared resources: output-contract.md, research-scope.md, next-steps.md
-- /research-intake: bidirectional review skill (SKILL.md + 3 references + 2 templates)
-- /research-init: project scaffolding (SKILL.md + 2 references + 11 templates)
-- /data-validate: data quality assessment (SKILL.md + 2 references)
-- /data-clean: documented cleaning (SKILL.md + 2 references + CONSORT template)
-- raw-data-guard hook: PreToolUse blocks Edit/Write on data/raw/
-- .claude/settings.json: hook registration
+**Phase 2A-2E completed:**
+- /eda: exploratory data analysis (SKILL.md + 2 references — Table 1, correlations, distributions, assumptions)
+- /analyze: confirmatory analysis (SKILL.md + 2 references + 5 method templates — OLS/GLM, fixest, lme4, lavaan, metafor)
+- /process-model: PROCESS mediation/moderation (SKILL.md + 3 references — principles, criteria, Hayes model→lavaan mapping)
+- /visualize: publication-quality figures (SKILL.md + 2 references — APA theme, 8 figure type checklists)
+- prereg-drift-check hook: PostToolUse advisory when analysis code changes with pre-registration present
+- settings.json: PostToolUse hook registration added
 
-**Distribution strategy added to PLAN.md:**
-- Claude Code plugin system (plugin.json + marketplace.json)
-- Dual-use structure: works as clone AND installable plugin
-- Semantic versioning with auto-update propagation
-- Phase 6 rewritten with detailed plugin packaging steps
+**Also fixed:**
+- GIT-001: research-intake skill files now properly committed (were untracked)
+- TEST-001: raw-data-guard hook verified working (blocks data/raw/, passes data/processed/)
+- Directory structure: renamed {references} → references in Phase 2 skill dirs
 
 ---
 
@@ -55,10 +53,9 @@
 
 | Task | Priority |
 |------|----------|
-| Phase 2A: /eda skill | P1 |
-| Phase 2B: /analyze skill | P1 |
-| Phase 2C: /process-model skill | P1 |
-| Phase 2D: /visualize skill | P1 |
+| Phase 3A: /report skill | P1 |
+| Phase 3B: /robustness skill | P1 |
+| Phase 3C: /reproduce skill | P1 |
 
 ---
 
@@ -66,5 +63,6 @@
 
 | Date | Summary |
 |------|---------|
+| 2026-04-10 | Phase 2 analysis core (2A-2E) + issue fixes |
 | 2026-04-10 | Phase 1 foundation skills (1A-1F) + plugin distribution strategy |
 | 2026-04-10 | Design docs, shared resources, implementation plan (initial session) |

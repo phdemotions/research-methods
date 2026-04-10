@@ -126,16 +126,16 @@ The first skill that runs when a researcher shows up — before init, before val
 **Goal:** A researcher can run exploratory and confirmatory analysis with proper assumption testing, effect sizes, and APA formatting.
 
 #### 2A. `/eda` — Exploratory data analysis
-- [ ] `eda/SKILL.md` — frontmatter + EDA workflow
-- [ ] `eda/references/principles.md` — exploration principles (describe before testing, visualize distributions, check assumptions)
-- [ ] `eda/references/criteria.md` — EDA checklist (Table 1, correlations, distributions, multicollinearity, normality)
+- [x] `eda/SKILL.md` — frontmatter + EDA workflow
+- [x] `eda/references/principles.md` — exploration principles (describe before testing, visualize distributions, check assumptions)
+- [x] `eda/references/criteria.md` — EDA checklist (Table 1, correlations, distributions, multicollinearity, normality)
 - [ ] Test: run EDA on cleaned sample data
 
 #### 2B. `/analyze` — Confirmatory analysis
-- [ ] `analyze/SKILL.md` — frontmatter + analysis workflow (reads pre-registration, matches to planned analyses)
-- [ ] `analyze/references/principles.md` — confirmatory analysis principles (assumption testing before modeling, always report effect sizes + CIs)
-- [ ] `analyze/references/criteria.md` — analysis checklist by method type (regression, SEM, mixed models, meta-analysis)
-- [ ] `analyze/references/method-templates/` — code skeletons for common methods:
+- [x] `analyze/SKILL.md` — frontmatter + analysis workflow (reads pre-registration, matches to planned analyses)
+- [x] `analyze/references/principles.md` — confirmatory analysis principles (assumption testing before modeling, always report effect sizes + CIs)
+- [x] `analyze/references/criteria.md` — analysis checklist by method type (regression, SEM, mixed models, meta-analysis)
+- [x] `analyze/references/method-templates/` — code skeletons for common methods:
   - OLS/GLM regression
   - Panel regression with fixed effects (fixest)
   - Mixed models (lme4/lmerTest)
@@ -144,22 +144,22 @@ The first skill that runs when a researcher shows up — before init, before val
 - [ ] Test: run confirmatory analysis on sample data
 
 #### 2C. `/process-model` — PROCESS mediation/moderation
-- [ ] `process-model/SKILL.md` — frontmatter + PROCESS workflow
-- [ ] `process-model/references/principles.md` — mediation/moderation principles
-- [ ] `process-model/references/criteria.md` — model specification checklist
-- [ ] `process-model/references/hayes-models.md` — mapping of Hayes model numbers (1-24) to `lavaan` syntax + `bruceR::PROCESS()` equivalents
+- [x] `process-model/SKILL.md` — frontmatter + PROCESS workflow
+- [x] `process-model/references/principles.md` — mediation/moderation principles
+- [x] `process-model/references/criteria.md` — model specification checklist
+- [x] `process-model/references/hayes-models.md` — mapping of Hayes model numbers (1-24) to `lavaan` syntax + `bruceR::PROCESS()` equivalents
 - [ ] Test: run Model 4 (simple mediation) and Model 14 (moderated mediation) on sample data
 
 #### 2D. `/visualize` — Publication-quality figures
-- [ ] `visualize/SKILL.md` — frontmatter + visualization workflow
-- [ ] `visualize/references/principles.md` — publication figure principles (APA, colorblind, DPI, clean)
-- [ ] `visualize/references/criteria.md` — figure checklist by type (interaction plots, mediation diagrams, forest plots, marginal effects, J-N plots)
+- [x] `visualize/SKILL.md` — frontmatter + visualization workflow
+- [x] `visualize/references/principles.md` — publication figure principles (APA, colorblind, DPI, clean)
+- [x] `visualize/references/criteria.md` — figure checklist by type (interaction plots, mediation diagrams, forest plots, marginal effects, J-N plots)
 - [ ] Test: produce figures from sample analysis output
 
 #### 2E. Hooks (analysis pair)
-- [ ] `.claude/hooks/prereg-drift-check.py` — PostToolUse advisory
-- [ ] Update `.claude/settings.json` with PostToolUse hook registration
-- [ ] Test: edit an analysis file with pre-registration present, verify advisory fires
+- [x] `.claude/hooks/prereg-drift-check.py` — PostToolUse advisory
+- [x] Update `.claude/settings.json` with PostToolUse hook registration
+- [x] Test: edit an analysis file with pre-registration present, verify advisory fires
 
 **Phase 2 exit criteria:** Can run `/eda` → `/analyze` → `/process-model` → `/visualize` sequence. Results have proper assumption testing, effect sizes, CIs, APA formatting. PROCESS models produce transparent `lavaan` code. Figures are publication-ready. Pre-registration drift detection is active.
 

@@ -269,19 +269,120 @@ Each follows the Opus Vita pattern: thin SKILL.md + `references/persona.md` + `r
 
 ---
 
-### Phase 6: Publishing & Documentation
-**Goal:** Ready for GitHub release. The README, examples, and contribution guide make this a resource other researchers would actually use.
+### Phase 6: Plugin Packaging & Distribution
+**Goal:** Packaged as a Claude Code plugin. Installable via `/plugin install`. Auto-updates on version bump. Listed in community registries.
 
-- [ ] Comprehensive `README.md` with installation, usage examples, screenshots of output
-- [ ] `CONTRIBUTING.md` — how to add skills, update frameworks, submit feedback
-- [ ] `examples/` directory with a sample research project demonstrating the full workflow
+#### 6A. Plugin manifest
+- [ ] `.claude-plugin/plugin.json` — plugin manifest with name, version, description, author, homepage, repository, license, keywords, and custom component paths pointing to `.claude/skills/` and `.claude/hooks/`
+- [ ] `.claude-plugin/marketplace.json` — marketplace catalog entry so others can add this repo as a marketplace source
+- [ ] `CHANGELOG.md` — versioned changelog (Keep a Changelog format)
+- [ ] Verify: skills are discoverable as `research-methods:skill-name` after install
+- [ ] Verify: hooks merge correctly with user's existing hooks after install
+- [ ] Verify: `${CLAUDE_PLUGIN_ROOT}` paths resolve correctly in hook commands
+
+#### 6B. Documentation for users
+- [ ] `README.md` — rewrite for end-users: what this is, installation (`/plugin marketplace add`), skill list with one-line descriptions, quick start walkthrough, screenshots of output
+- [ ] `CONTRIBUTING.md` — how to add skills, update frameworks, submit feedback, run `/research-zeitgeist`
 - [ ] `LICENSE` (MIT)
-- [ ] `.github/` — issue templates, PR template
-- [ ] Initial git commit with all content
-- [ ] GitHub repo creation
-- [ ] First `/research-zeitgeist` run to establish baseline
+- [ ] `.github/` — issue templates (bug, feature, skill request), PR template
 
-**Phase 6 exit criteria:** Published on GitHub. README is comprehensive. Example project demonstrates the full workflow. Others can install and use the skills.
+#### 6C. Example project
+- [ ] `examples/` directory with a sample research project demonstrating the full workflow
+- [ ] Example uses real (or realistic synthetic) survey data
+- [ ] Shows the complete chain: `/research-intake` → `/research-init` → `/data-validate` → `/data-clean` → `/eda` → `/analyze` → `/visualize` → `/report` → `/reproduce`
+- [ ] Includes generated outputs: codebook, validation report, exclusion flow, figures, tables, manuscript draft
+
+#### 6D. Community distribution
+- [ ] First `/research-zeitgeist` run to establish framework baseline
+- [ ] Submit to community registries:
+  - [ ] alirezarezvani/claude-skills (PR to add to catalog)
+  - [ ] travisvn/awesome-claude-skills (PR to add listing)
+  - [ ] SkillsMP marketplace listing
+- [ ] Consider: submit to Anthropic official marketplace at claude.ai/settings/plugins/submit
+- [ ] Announce on relevant channels (academic Twitter/Bluesky, R-bloggers, methods communities)
+
+#### 6E. Team/lab adoption support
+- [ ] Document `extraKnownMarketplaces` pattern for `.claude/settings.json` so research labs can auto-trust this marketplace for all team members
+- [ ] Document how to pin a specific version vs. track latest
+- [ ] Document how to use alongside other plugins without conflicts
+
+**Phase 6 exit criteria:** `pip install`-simple: a researcher runs two commands (`/plugin marketplace add`, `/plugin install`) and has all 17 skills available in any project. Version bumps auto-propagate. Listed in at least one community registry. Example project demonstrates the full workflow.
+
+---
+
+## Distribution Strategy
+
+### How researchers install this
+
+```bash
+# One-time: add the marketplace
+/plugin marketplace add phdemotions/research-methods
+
+# Install into any project
+/plugin install research-methods@phdemotions-research-methods
+```
+
+After install, all skills are namespaced and available:
+```
+/research-methods:research-init
+/research-methods:data-validate
+/research-methods:data-clean
+/research-methods:eda
+/research-methods:analyze
+...
+```
+
+### Plugin structure (added in Phase 6A)
+
+```
+research-methods/
+├── .claude-plugin/
+│   ├── plugin.json              ← manifest (name, version, paths)
+│   └── marketplace.json         ← catalog for /plugin marketplace add
+├── .claude/
+│   ├── skills/                  ← all skills (referenced by plugin.json)
+│   │   ├── _shared/
+│   │   ├── research-intake/
+│   │   ├── research-init/
+│   │   ├── data-validate/
+│   │   ├── data-clean/
+│   │   └── ...
+│   ├── hooks/                   ← all hooks (referenced by plugin.json)
+│   │   └── raw-data-guard.py
+│   └── settings.json
+├── CHANGELOG.md
+├── README.md
+└── examples/
+```
+
+The `plugin.json` uses custom component paths to point at `.claude/skills/` and `.claude/hooks/`:
+```json
+{
+  "name": "research-methods",
+  "version": "1.0.0",
+  "skills": "./.claude/skills/",
+  "hooks": "./.claude/settings.json"
+}
+```
+
+This preserves dual-use: the repo works both as a **direct project** (clone and use `.claude/skills/` natively) AND as an **installable plugin** (via `/plugin install`).
+
+### Version management
+
+- Semantic versioning: `MAJOR.MINOR.PATCH`
+- Version bumps in `plugin.json` trigger auto-updates for installed users
+- `CHANGELOG.md` documents every release
+- Pin-friendly: users can lock to a specific version in their marketplace config
+- `${CLAUDE_PLUGIN_DATA}` directory for any persistent state that survives updates
+
+### Distribution channels (by reach)
+
+| Channel | Type | When |
+|---------|------|------|
+| GitHub repo | Direct | Phase 6A — immediate |
+| Custom marketplace | Plugin system | Phase 6A — marketplace.json |
+| Community registries | Discovery | Phase 6D — PRs to awesome-lists |
+| Anthropic marketplace | Official | Phase 6D — submission if accepted |
 
 ---
 
@@ -331,6 +432,8 @@ These were decided during the design conversation on April 10, 2026. They should
 11. **Data-already-collected** as primary use case — most researchers come with data in hand
 12. **Business research domain** — not generic data science
 13. **Monthly self-improvement** via `/research-zeitgeist` web search
+14. **Plugin distribution** via Claude Code plugin system — `.claude-plugin/plugin.json` + marketplace.json. Dual-use structure: works as both a direct project (clone) and an installable plugin (`/plugin install`). Skills stay at `.claude/skills/`, plugin.json uses custom paths.
+15. **Semantic versioning** — version bumps in plugin.json trigger auto-updates for installed users
 
 ---
 
@@ -343,4 +446,4 @@ These were decided during the design conversation on April 10, 2026. They should
 
 ---
 
-*Last updated: 2026-04-10*
+*Last updated: 2026-04-10 — Distribution strategy added*

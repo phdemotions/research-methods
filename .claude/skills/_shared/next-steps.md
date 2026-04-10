@@ -13,7 +13,10 @@
 | `/research-intake` | `/analyze` | If cleaned data exists, continue from there |
 | `/research-init` | `/data-validate` | If data exists in `data/raw/` |
 | `/data-validate` | `/data-clean` | If validation found issues to address |
+| `/data-clean` | `/data-profile` | Always (manuscript-ready documentation) |
 | `/data-clean` | `/eda` | Always |
+| `/data-profile` | `/eda` | If EDA not yet done |
+| `/data-profile` | `/report` | If writing the manuscript |
 | `/eda` | `/analyze` | Always |
 | `/analyze` | `/robustness` | If primary results are significant |
 | `/analyze` | `/research-audit --quick` | If this is a milestone |

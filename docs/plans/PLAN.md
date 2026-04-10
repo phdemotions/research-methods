@@ -77,61 +77,45 @@ Each skill needs:
 **Goal:** A researcher with existing data can scaffold a project, validate data, and clean it — the highest-value "data already collected" workflow. Starts with a bidirectional intake review.
 
 #### 1A. Shared infrastructure additions
-- [ ] `_shared/output-contract.md` — research audit report template (adapt from Opus Vita `_audit-shared/output-contract.md`)
-- [ ] `_shared/research-scope.md` — how to determine what to audit in a research project (adapt from `_audit-shared/session-scope.md`)
-- [ ] `_shared/next-steps.md` — auto-chaining rules (which skill to suggest next, from ORCHESTRATION.md)
+- [x] `_shared/output-contract.md` — research audit report template
+- [x] `_shared/research-scope.md` — how to determine what to audit in a research project
+- [x] `_shared/next-steps.md` — auto-chaining rules (which skill to suggest next)
 
 #### 1B. `/research-intake` — Bidirectional review (THE entry point)
 The first skill that runs when a researcher shows up — before init, before validation.
-- [ ] `research-intake/SKILL.md` — frontmatter + bidirectional review workflow
-- [ ] `research-intake/references/principles.md` — intake principles (review what exists before prescribing)
-- [ ] `research-intake/references/criteria.md` — gap analysis rubric:
-  - Documentation completeness (codebook, decision log, pre-reg, README, IRB, provenance)
-  - Data quality baseline (format, separation of raw/processed, validation, missingness)
-  - Code quality baseline (pipeline, environment, tests, variable naming, session info)
-  - Methodology baseline (effect sizes, assumptions, robustness, appropriateness)
-- [ ] `research-intake/references/suite-learning.md` — inward review rubric:
-  - New methods not covered by current skills
-  - New packages/tools not in FRAMEWORKS.md
-  - New documentation patterns worth adopting
-  - New domain conventions or journal requirements
-- [ ] `research-intake/references/templates/gap-report.md` — structured output template
-- [ ] `research-intake/references/templates/suite-learning-report.md` — inward findings template
+- [x] `research-intake/SKILL.md` — frontmatter + bidirectional review workflow
+- [x] `research-intake/references/principles.md` — intake principles (review what exists before prescribing)
+- [x] `research-intake/references/criteria.md` — gap analysis rubric (documentation, data quality, code quality, methodology)
+- [x] `research-intake/references/suite-learning.md` — inward review rubric (new methods, packages, patterns, conventions)
+- [x] `research-intake/references/templates/gap-report.md` — structured output template
+- [x] `research-intake/references/templates/suite-learning-report.md` — inward findings template
 - [ ] Test: run intake on a real researcher's existing project materials
 
 #### 1C. `/research-init` — Project scaffolding
-- [ ] `research-init/SKILL.md` — frontmatter + instructions for scaffolding
-- [ ] `research-init/references/principles.md` — reproducibility principles for project setup
-- [ ] `research-init/references/criteria.md` — what a well-structured research project needs
-- [ ] `research-init/references/templates/` — all scaffolding templates:
-  - `_targets.R` pipeline stub
-  - `Snakefile` stub
-  - `00_setup.R` / `00_setup.py`
-  - Decision log `TEMPLATE.md`
-  - Codebook template
-  - README template (Cornell-based)
-  - Pre-registration skeleton
-  - Quarto manuscript template (`manuscript.qmd`)
-  - `.gitignore` for research projects
-  - `CITATION.cff` template
+- [x] `research-init/SKILL.md` — frontmatter + instructions for scaffolding
+- [x] `research-init/references/principles.md` — reproducibility principles for project setup
+- [x] `research-init/references/criteria.md` — what a well-structured research project needs
+- [x] `research-init/references/templates/` — all scaffolding templates:
+  - `_targets.R`, `Snakefile`, `setup.R`, `setup.py`, `decision.md`, `pre-registration.md`,
+    `readme.md`, `manuscript.qmd`, `gitignore`, `citation.cff`, `pipeline-status.md`
 - [ ] Test: scaffold a real project, verify all files are correct
 
 #### 1D. `/data-validate` — Data quality assessment
-- [ ] `data-validate/SKILL.md` — frontmatter + validation workflow
-- [ ] `data-validate/references/principles.md` — data quality principles
-- [ ] `data-validate/references/criteria.md` — what to check (completeness, distributions, impossible values, duplicates, outliers, encoding, attention checks, manipulation checks)
+- [x] `data-validate/SKILL.md` — frontmatter + validation workflow
+- [x] `data-validate/references/principles.md` — data quality principles
+- [x] `data-validate/references/criteria.md` — comprehensive validation rubric (6 categories)
 - [ ] Test: run against a sample dataset
 
 #### 1E. `/data-clean` — Documented data cleaning
-- [ ] `data-clean/SKILL.md` — frontmatter + cleaning workflow
-- [ ] `data-clean/references/principles.md` — cleaning principles (never modify raw, log everything, CONSORT flow)
-- [ ] `data-clean/references/criteria.md` — cleaning checklist
-- [ ] `data-clean/references/templates/consort-flow.md` — CONSORT exclusion flow template
+- [x] `data-clean/SKILL.md` — frontmatter + cleaning workflow
+- [x] `data-clean/references/principles.md` — cleaning principles (8 principles)
+- [x] `data-clean/references/criteria.md` — cleaning checklist (8 sections)
+- [x] `data-clean/references/templates/consort-flow.md` — CONSORT exclusion flow template
 - [ ] Test: clean a sample dataset, verify logging and flow diagram
 
 #### 1F. Hooks (foundation pair)
-- [ ] `.claude/hooks/raw-data-guard.py` — verify/complete the PreToolUse hook
-- [ ] `.claude/settings.json` — register the raw-data-guard hook
+- [x] `.claude/hooks/raw-data-guard.py` — PreToolUse hook blocks Edit/Write on data/raw/
+- [x] `.claude/settings.json` — hook registration for raw-data-guard
 - [ ] Test: try to edit a file in `data/raw/` and verify it's blocked
 
 **Phase 1 exit criteria:** Can run `/research-intake` → `/research-init` → `/data-validate` → `/data-clean` in sequence on real data. Intake produces a gap report AND suite-learning findings. Project has proper structure, codebook, cleaned data with exclusion documentation. Raw data is protected by hook.

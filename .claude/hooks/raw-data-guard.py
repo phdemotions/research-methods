@@ -1,37 +1,30 @@
 #!/usr/bin/env python3
 """
-PreToolUse hook: prevent any modification to files in data/raw/.
+PreToolUse hook: block any Edit or Write to files under data/raw/.
 
-Raw data is sacred — principle #1 of the research-methods suite.
-This hook blocks Edit and Write tool calls that target any file
-under a data/raw/ directory in the current project.
+Raw data is sacred — principle #1 of the research-methods skill suite.
+Cleaning code reads from data/raw/ and writes to data/processed/.
+The raw data is never modified, overwritten, or deleted.
 
-Fires on: Edit, Write
-Fails open: if anything goes wrong, the tool call proceeds.
+Behavior:
+  - Fires before every Edit or Write tool call
+  - Checks if the target file path is under data/raw/
+  - If yes: blocks the tool call with a clear error message
+  - If no: passes through silently
+
+Fail-open: errors in this hook never block the researcher's work.
 """
 
 from __future__ import annotations
 
 import json
+import os
 import sys
 from pathlib import Path
 
 
 def fail_open() -> None:
-    """Exit silently, letting the tool call through."""
-    sys.exit(0)
-
-
-def block(reason: str) -> None:
-    """Block the tool call with an explanation."""
-    output = {
-        "hookSpecificOutput": {
-            "hookEventName": "PreToolUse",
-            "decision": "block",
-            "reason": reason,
-        }
-    }
-    print(json.dumps(output))
+    """Exit silently, letting the tool call through unmodified."""
     sys.exit(0)
 
 
@@ -46,48 +39,75 @@ def read_hook_input() -> dict:
 
 
 def get_target_path(payload: dict) -> str | None:
-    """Extract the file path from an Edit or Write tool call."""
+    """Extract the file path from the tool input.
+
+    Edit tool: payload.tool_input.file_path
+    Write tool: payload.tool_input.file_path
+    """
     tool_input = payload.get("tool_input", {})
-    # Edit uses "file_path", Write uses "file_path"
-    return tool_input.get("file_path")
+    if isinstance(tool_input, dict):
+        return tool_input.get("file_path")
+    return None
 
 
-def is_under_raw_data(file_path: str, cwd: str) -> bool:
-    """Check if the file path is under any data/raw/ directory."""
+def is_under_data_raw(file_path: str, cwd: str) -> bool:
+    """Check if the target path is under any data/raw/ directory."""
     try:
-        resolved = Path(file_path).resolve()
-        # Check if "data/raw" appears in the path
-        parts = resolved.parts
-        for i, part in enumerate(parts):
-            if part == "data" and i + 1 < len(parts) and parts[i + 1] == "raw":
+        target = Path(file_path)
+        # Handle relative paths by resolving against CWD
+        if not target.is_absolute():
+            target = Path(cwd) / target
+        target = target.resolve()
+
+        # Check if any parent directory sequence contains data/raw
+        parts = target.parts
+        for i in range(len(parts) - 1):
+            if parts[i] == "data" and i + 1 < len(parts) and parts[i + 1] == "raw":
                 return True
         return False
     except Exception:
         return False
 
 
+def block(reason: str) -> None:
+    """Block the tool call with an error message."""
+    output = {
+        "hookSpecificOutput": {
+            "hookEventName": "PreToolUse",
+            "decision": "block",
+            "reason": reason,
+        }
+    }
+    print(json.dumps(output))
+    sys.exit(0)
+
+
 def main() -> None:
     payload = read_hook_input()
 
+    # Only act on Edit and Write tool calls
     tool_name = payload.get("tool_name", "")
     if tool_name not in ("Edit", "Write"):
         fail_open()
 
-    target_path = get_target_path(payload)
-    if not target_path:
+    # Extract target file path
+    file_path = get_target_path(payload)
+    if not file_path:
         fail_open()
 
-    cwd = payload.get("cwd", "")
+    # Get CWD for resolving relative paths
+    cwd = payload.get("cwd", os.getcwd())
 
-    if is_under_raw_data(target_path, cwd):
+    # Check if the target is under data/raw/
+    if is_under_data_raw(file_path, cwd):
         block(
-            "BLOCKED: Cannot modify files in data/raw/. "
-            "Raw data is sacred and must never be modified. "
-            "Write transformed data to data/processed/ instead. "
-            "If you need to fix a data issue, document it in "
-            "docs/decisions/ and handle it in your cleaning script."
+            "BLOCKED: Raw data is sacred. Files under data/raw/ must never be "
+            "modified. Cleaning code should read from data/raw/ and write to "
+            "data/processed/. If you need to fix the raw data itself, do so "
+            "outside of Claude Code and re-import."
         )
 
+    # Not a raw data file — allow the tool call
     fail_open()
 
 
@@ -97,4 +117,5 @@ if __name__ == "__main__":
     except SystemExit:
         raise
     except Exception:
+        # Fail open — never block the researcher's work due to hook errors.
         fail_open()

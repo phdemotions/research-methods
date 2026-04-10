@@ -1,87 +1,135 @@
 # research-methods
 
-> Gold-standard Claude Code skills for reproducible quantitative research in R and Python.
-> Built for business researchers. Publishable on OSF. Designed so a senior faculty member at Harvard, Stanford, or Wharton would be proud to attach their name to the code.
+Gold-standard Claude Code skills for reproducible quantitative research in R and Python.
 
-## What this is
+Built for business, marketing, consumer behavior, management, and organizational behavior researchers. Designed so a senior faculty member at a top business school would be proud to put their name on the code.
 
-A suite of Claude Code skills that guide every stage of quantitative research — from project setup to OSF packaging — enforcing best practices that meet the highest standards of open science, transparency, and reproducibility.
+## Install
 
-These skills don't generate generic boilerplate. They read your research question, your pre-registration, your codebook, and your decision log, then produce analysis code and documentation that is specific to your project, your constructs, and your discipline.
+**Plugin (recommended):**
 
-## Who this is for
+```
+/plugin marketplace add phdemotions/research-methods
+/plugin install research-methods@phdemotions-research-methods
+```
 
-- Business, marketing, and consumer behavior researchers
-- Management and organizational behavior scholars
-- Anyone doing quantitative social science who wants their code to be publication-ready
-- Researchers transitioning from SPSS/Stata to R/Python who want to do it right
+Skills are available as `/research-methods:skill-name` in any project. Hooks activate automatically. Auto-updates on version bump.
 
-## The three non-negotiable principles
+**Quick start (no plugin system):**
 
-1. **Raw data is sacred.** Never modified, only read. Every transformation is logged and reversible.
-2. **One command reproduces everything.** From raw data to final manuscript tables and figures.
-3. **Every subjective decision is documented.** Exclusion criteria, outlier handling, variable transformations, model specification choices — all written into a decision log with rationale.
+```bash
+git clone https://github.com/phdemotions/research-methods ~/tools/research-methods
+claude --add-dir ~/tools/research-methods
+```
 
-## IDE
+Skills load automatically. Hooks do not load via `--add-dir` — use the plugin method for full functionality.
 
-Built with [Positron](https://positron.posit.co/) as the primary IDE, but works with any IDE that supports Claude Code (VS Code, JetBrains, etc.).
+**Direct use (contributors):**
+
+```bash
+git clone https://github.com/phdemotions/research-methods
+cd research-methods
+claude
+```
+
+Everything loads natively when working inside the repo.
 
 ## Skills
 
-### Layer 1 — Project Lifecycle (the workflow)
+### The Workflow
 
-| Skill | Purpose |
-|-------|---------|
-| `/research-intake` | **The entry point.** Bidirectional review: gap analysis of your materials + suite learning from what you bring |
-| `/research-init` | Scaffold a new research project with full reproducibility infrastructure |
-| `/data-validate` | Declarative data quality checks, codebook generation, FAIR compliance |
-| `/data-clean` | Cleaning scripts that log every transformation, CONSORT-style exclusion flow |
-| `/eda` | Exploratory analysis with publication-quality figures and descriptive tables |
-| `/analyze` | Confirmatory analysis matched to pre-registration, with assumption testing |
-| `/robustness` | Sensitivity analysis, specification curves, multiverse analysis |
-| `/visualize` | Publication-quality figures (APA 7th, colorblind-safe, journal-spec DPI) |
-| `/report` | Manuscript-ready tables and APA-formatted results paragraphs |
-| `/reproduce` | Package everything for OSF/Dataverse with full documentation |
+| Skill | What it does |
+|-------|-------------|
+| `/research-intake` | **Start here.** Reviews your materials, identifies gaps, suggests what to do first |
+| `/research-init` | Scaffolds a project with full reproducibility infrastructure (targets/Snakemake, renv/uv, decision log, pre-registration) |
+| `/data-validate` | Checks data quality — completeness, ranges, duplicates, attention checks — and generates a codebook |
+| `/data-clean` | Produces cleaning scripts that log every transformation with CONSORT-style exclusion flow |
+| `/data-profile` | Manuscript-ready data documentation: demographics table, scale reliability (alpha, omega, CFA), comprehensive codebook |
+| `/eda` | Table 1, correlation matrix, distributions, assumption pre-checks — all publication-quality |
+| `/analyze` | Confirmatory analysis matched to your pre-registration. Supports OLS/GLM, panel FE (fixest), mixed models (lme4), SEM (lavaan), meta-analysis (metafor) |
+| `/process-model` | Hayes PROCESS models as transparent lavaan code. Bootstrap CIs, index of moderated mediation, Johnson-Neyman plots |
+| `/visualize` | APA 7th figures: interaction plots, path diagrams, forest plots, marginal effects, J-N plots. Colorblind-safe, multi-format export |
 
-### Layer 2 — Quality Gates (the audit)
+### Coming Soon
 
-| Skill | Purpose |
-|-------|---------|
-| `/research-review` | Methods-expert code review: statistical rigor, transparency, reproducibility |
-| `/pre-submit` | Pre-submission checklist: JARS, effect sizes, data availability, CRediT |
-| `/reproduce-check` | Actually reproduces results from scratch and compares output |
+| Skill | What it does |
+|-------|-------------|
+| `/report` | Manuscript-ready APA results paragraphs and tables |
+| `/robustness` | Specification curves, alternative estimators, sensitivity analysis |
+| `/reproduce` | OSF/repository packaging with FAIR compliance |
+| `/research-review` | Methods code review from a senior methodologist's perspective |
+| `/pre-submit` | JARS compliance, journal-specific pre-submission checklist |
+| `/research-zeitgeist` | Date-aware scan of current best practices — the self-improvement engine |
+| `/method-advisor` | "What test should I use?" with citations, assumptions, and code skeletons |
 
-### Layer 3 — Learning/Evolution (the self-improvement)
+### Hooks (automatic)
 
-| Skill | Purpose |
-|-------|---------|
-| `/research-zeitgeist` | Date-aware scan of current best practices for R/Python research tools |
-| `/method-advisor` | Recommends appropriate statistical methods with citations and assumptions |
-| `/process-model` | PROCESS-style mediation/moderation via lavaan (Hayes model number mapping) |
+- **raw-data-guard** — Blocks any attempt to modify files in `data/raw/`. Raw data is sacred.
+- **prereg-drift-check** — Advises when analysis code changes and a pre-registration exists. Reminds you to check alignment.
 
-## Frameworks
+## Three Principles
 
-See [docs/FRAMEWORKS.md](docs/FRAMEWORKS.md) for the complete, verified framework stack with rationale for every choice.
+1. **Raw data is sacred.** Never modified, only read. Cleaning writes to `data/processed/`.
+2. **One command reproduces everything.** `tar_make()` (R) or `snakemake` (Python).
+3. **Every subjective decision is documented.** Exclusion criteria, outlier handling, model choices — all in the decision log.
 
-## Quick start
+## Framework Stack
 
-```bash
-# Clone into your Claude Code skills directory or use as a standalone repo
-git clone <this-repo> ~/developer/research-methods
+**R:** targets + renv + tidyverse + pointblank + ggplot2 + gtsummary + modelsummary + easystats + fixest + lavaan + bruceR + metafor + Quarto
 
-# Skills are auto-available when working in this directory
-# Or symlink into your global skills:
-# ln -s ~/developer/research-methods/.claude/skills/* ~/.claude/skills/
+**Python:** Snakemake + uv + polars + pandera + plotnine + great_tables + statsmodels + pingouin + Quarto
+
+Every framework choice was verified against current best practices. See [docs/FRAMEWORKS.md](docs/FRAMEWORKS.md) for the full rationale.
+
+## Date-Aware
+
+Skills like `/data-profile` and `/research-zeitgeist` check current reporting standards (JARS, TOP, journal guidelines) via web search before generating output. Recommendations stay current regardless of when you run them.
+
+## IDE
+
+Built with [Positron](https://positron.posit.co/). Compatible with VS Code, JetBrains, or any IDE supporting Claude Code.
+
+## Typical Workflow
+
+```
+/research-intake     → Review what you have, identify gaps
+/research-init       → Scaffold project structure
+/data-validate       → Check data quality, generate codebook
+/data-clean          → Clean with documented exclusions
+/data-profile        → Demographics, scales, reliability for Methods section
+/eda                 → Descriptive stats, correlations, assumptions
+/analyze             → Hypothesis testing matched to pre-registration
+/process-model       → Mediation/moderation if applicable
+/visualize           → Publication figures
 ```
 
-## Architecture
+## For Research Labs
 
-See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for full design documentation.
+Add the marketplace to your lab's shared settings so all members have access:
+
+```json
+// .claude/settings.json (shared across the lab)
+{
+  "extraKnownMarketplaces": ["phdemotions/research-methods"]
+}
+```
+
+Then each lab member runs:
+```
+/plugin install research-methods@phdemotions-research-methods
+```
+
+## Version
+
+Pin a specific version in your project if reproducibility matters:
+```
+/plugin install research-methods@phdemotions-research-methods --version 0.2.0
+```
 
 ## License
 
 MIT
 
----
+## Contributing
 
-*Last verified: April 2026 — All framework recommendations web-searched and confirmed current.*
+Issues and PRs welcome at [github.com/phdemotions/research-methods](https://github.com/phdemotions/research-methods).

@@ -1,0 +1,13 @@
+{
+  "name": "phdemotions-research-methods",
+  "owner": {
+    "name": "phdemotions"
+  },
+  "plugins": [
+    {
+      "name": "research-methods",
+      "source": ".",
+      "description": "Gold-standard skills for reproducible quantitative research in R and Python. Covers the full lifecycle: intake, scaffolding, validation, cleaning, profiling, EDA, confirmatory analysis, PROCESS models, visualization, and more."
+    }
+  ]
+}

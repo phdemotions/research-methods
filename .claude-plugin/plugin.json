@@ -1,0 +1,26 @@
+{
+  "name": "research-methods",
+  "version": "0.2.0",
+  "description": "Gold-standard Claude Code skills for reproducible quantitative research in R and Python. Built for business, marketing, and consumer behavior researchers.",
+  "author": "phdemotions",
+  "homepage": "https://github.com/phdemotions/research-methods",
+  "repository": "https://github.com/phdemotions/research-methods",
+  "license": "MIT",
+  "keywords": [
+    "research",
+    "quantitative",
+    "statistics",
+    "R",
+    "Python",
+    "APA",
+    "reproducibility",
+    "business-research",
+    "consumer-behavior",
+    "marketing",
+    "SEM",
+    "mediation",
+    "PROCESS"
+  ],
+  "skills": "./.claude/skills/",
+  "hooks": "./.claude/hooks-plugin.json"
+}

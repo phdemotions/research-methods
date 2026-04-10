@@ -9,6 +9,12 @@
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
+│                   Layer 4: BIDIRECTIONAL REVIEW                  │
+│   /research-intake — runs at start AND end of every engagement  │
+│   OUTWARD: gap analysis of researcher's materials vs standards  │
+│   INWARD: what can our suite learn from what they brought?      │
+│   └── gaps → skill dispatch, learnings → suite evolution        │
+├─────────────────────────────────────────────────────────────────┤
 │                     Layer 3: FEEDBACK LOOPS                      │
 │   /research-feedback (user input) + /research-audit (personas)  │
 │   Top-researcher stakeholder audits (Harvard/Stanford/Wharton)  │
@@ -232,12 +238,115 @@ The composite skill dispatches all 5 personas (or a subset in `--quick` mode), c
 
 ---
 
+## The Bidirectional Review — `/research-intake`
+
+This is the critical skill that runs at the **start** of every engagement with existing materials, and again at the **end** of every session. It looks in two directions simultaneously.
+
+### Direction 1: Outward — What the researcher's project needs (gap analysis)
+
+Reviews everything the researcher has brought — data files, documentation, codebooks, analysis scripts, survey instruments, IRB materials, pre-registrations — and compares against our gold standards. Produces a structured gap report:
+
+**Documentation gaps:**
+- Is there a codebook? Does it meet our standards (variable names, types, scales, anchors, source citations)?
+- Is there a decision log? Are subjective choices documented with rationale?
+- Is there a pre-registration? Does the analysis plan match?
+- Is there a README that follows the Cornell template?
+- Is there IRB/ethics documentation?
+- Is there a data provenance trail (where did this data come from, when, how)?
+
+**Data quality gaps:**
+- Is raw data separated from processed data?
+- Are there validation checks in place?
+- Is missingness documented? Exclusion criteria?
+- Are scales documented with reliability metrics?
+- Is the data in an open format (CSV/parquet) or trapped in proprietary format (.sav, .dta)?
+
+**Code quality gaps:**
+- Is there a pipeline (targets/Snakemake/Makefile)?
+- Is the environment reproducible (renv.lock/uv.lock)?
+- Are there tests?
+- Does the code use domain-appropriate variable names?
+- Is there session info captured?
+
+**Methodology gaps:**
+- Are effect sizes and CIs reported, not just p-values?
+- Are assumptions tested before models are fit?
+- Are robustness checks present?
+- Is the analysis appropriate for the research design?
+
+The output is a prioritized list: "Here's what you have, here's what's missing, here's what to fix first." Organized by severity (BLOCKER → MAJOR → MINOR → POLISH) using our research-calibrated severity scale.
+
+### Direction 2: Inward — What our skill suite can learn (suite evolution)
+
+Reviews what the researcher brought and asks: **does our skill suite cover this?**
+
+**New methods encountered:**
+- Did the researcher use a method our skills don't cover? (e.g., experience sampling, conjoint analysis, text analysis, network analysis, Bayesian methods we haven't added yet)
+- Did they use a package we don't recommend? Is it better than what we have?
+- Did they use a workflow pattern that's more efficient than what we scaffold?
+
+**New documentation patterns:**
+- Did their codebook have a structure we should adopt?
+- Did they have a documentation practice we should add to our templates?
+- Did their pre-registration format include something we don't?
+
+**New domain conventions:**
+- Did they reference a journal with requirements we haven't documented?
+- Did they use a scale or construct measurement approach we should know about?
+- Did they follow a reporting convention we should add to our APA formatting guide?
+
+**Suite update proposals:**
+- Each inward finding becomes a concrete proposal: "Add conjoint analysis to `/method-advisor` decision tree" or "Add experience sampling protocol to `/data-validate` criteria"
+- Proposals are saved to `docs/feedback/suite-learning-YYYY-MM-DD.md`
+- Proposals are surfaced to the researcher: "I noticed you use conjoint analysis — our skills don't cover that yet. Should I add it?"
+
+### When it runs
+
+| Trigger | Mode | Purpose |
+|---------|------|---------|
+| First encounter with researcher's data | **Full intake** | Complete gap analysis + suite learning |
+| `/research-init` with existing data | **Outward only** | Gap analysis to guide scaffolding |
+| Session end (via hook) | **Quick review** | What changed this session, any new gaps introduced or gaps closed? |
+| `/research-feedback` | **Inward only** | Researcher explicitly says what's missing |
+| `/research-zeitgeist` | **Inward only** | Monthly check for methods/tools we should add |
+
+### The handoff
+
+After the outward analysis, `/research-intake` produces a prioritized action plan that maps directly to which skills to run:
+
+```
+Gap: No codebook → Run /data-validate (generates one)
+Gap: No exclusion documentation → Run /data-clean (produces CONSORT flow)
+Gap: Raw data not separated → Run /research-init (scaffolds proper structure)
+Gap: No pipeline → Run /research-init (creates _targets.R / Snakefile)
+Gap: Effect sizes missing → Run /analyze (always includes them)
+Gap: No pre-registration → Suggest creating one, or document analysis as exploratory
+```
+
+This is not just a checklist — it's a roadmap for the session. The researcher sees exactly what needs to happen and in what order.
+
+### The session-end review
+
+At session end, a lighter version runs:
+
+1. **What gaps were closed this session?** (celebration + progress tracking)
+2. **What gaps remain?** (carry-forward for next session)
+3. **Did we encounter anything our suite doesn't handle?** (inward learning)
+4. **Update `docs/pipeline-status.md`** with current state
+
+This gives the researcher a clear "state of the project" snapshot and ensures nothing falls through the cracks between sessions.
+
+---
+
 ## Skill Auto-Chaining Rules
 
 Skills suggest (never force) the next skill in the pipeline:
 
 | After this skill... | Suggest... | Condition |
 |---------------------|-----------|-----------|
+| `/research-intake` | `/research-init` | If project not scaffolded yet |
+| `/research-intake` | `/data-validate` | If project exists but no codebook |
+| `/research-intake` | `/data-clean` | If codebook exists but no cleaning docs |
 | `/research-init` | `/data-validate` | If data exists in `data/raw/` |
 | `/data-validate` | `/data-clean` | If validation found issues |
 | `/data-clean` | `/eda` | Always |

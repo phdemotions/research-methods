@@ -5,6 +5,51 @@
 
 ---
 
+## Layer 0 — The Entry Point
+
+### `/research-intake` — Bidirectional Review
+
+**Purpose:** The first skill that runs when a researcher shows up. Reviews everything they have and produces two outputs: (1) what their project needs to meet gold standards, and (2) what our skill suite can learn from what they brought.
+
+**Triggers:** "I have data," "review what I have," "where do I start," "look at my project," "intake," "what am I missing," "how does my project compare," beginning of any research engagement
+
+**What it does:**
+
+**Direction 1 — Outward (gap analysis of their project):**
+1. Inventories everything the researcher has: data files, documentation, scripts, instruments, IRB materials, pre-registrations, codebooks, READMEs
+2. Compares each against our gold standards (from `_shared/transparency.md`, `_shared/r-standards.md`, etc.)
+3. Produces a structured gap report organized by severity:
+   - **Documentation:** codebook completeness, decision log presence, pre-registration, README, IRB, data provenance
+   - **Data quality:** raw/processed separation, validation checks, missingness documentation, open format vs. proprietary
+   - **Code quality:** pipeline existence, environment reproducibility, tests, variable naming, session info
+   - **Methodology:** effect sizes, assumption testing, robustness checks, analytical appropriateness
+4. Maps each gap to the skill that would close it (e.g., "No codebook → `/data-validate`")
+5. Produces a prioritized action plan for the session
+
+**Direction 2 — Inward (suite learning):**
+1. Reviews everything the researcher brought and asks: does our skill suite cover this?
+2. Identifies:
+   - **New methods** not in our skills (conjoint, experience sampling, text analysis, network analysis, etc.)
+   - **New packages** not in FRAMEWORKS.md — are they better than what we recommend?
+   - **New documentation patterns** worth adopting in our templates
+   - **New domain conventions** or journal requirements we haven't documented
+3. Saves findings to `docs/feedback/suite-learning-YYYY-MM-DD.md`
+4. Proposes concrete skill updates (with researcher approval)
+
+**Session-end mode (lighter version):**
+1. What gaps were closed this session? (celebrate progress)
+2. What gaps remain? (carry-forward list)
+3. Did we encounter anything our suite doesn't handle? (inward learning)
+4. Update `docs/pipeline-status.md`
+
+**Produces:**
+- Console: prioritized gap report + suggested skill sequence
+- `docs/audits/intake-YYYY-MM-DD.md` — full gap report
+- `docs/feedback/suite-learning-YYYY-MM-DD.md` — inward findings (if any)
+- `docs/pipeline-status.md` — current state of the project
+
+---
+
 ## Layer 1 — Project Lifecycle Skills
 
 ### `/research-init` — Project Scaffolding
@@ -410,9 +455,10 @@ Report template for audit skills: verdict, findings, recommendations.
 
 ### Phase 1 — Foundation (build first)
 1. `_shared/` resources
-2. `/research-init`
-3. `/data-validate`
-4. `/data-clean`
+2. `/research-intake` (the entry point — bidirectional review)
+3. `/research-init`
+4. `/data-validate`
+5. `/data-clean`
 
 ### Phase 2 — Analysis Core
 5. `/eda`

@@ -32,6 +32,7 @@ Built with [Positron](https://positron.posit.co/) as the primary IDE, but works 
 
 | Skill | Purpose |
 |-------|---------|
+| `/research-intake` | **The entry point.** Bidirectional review: gap analysis of your materials + suite learning from what you bring |
 | `/research-init` | Scaffold a new research project with full reproducibility infrastructure |
 | `/data-validate` | Declarative data quality checks, codebook generation, FAIR compliance |
 | `/data-clean` | Cleaning scripts that log every transformation, CONSORT-style exclusion flow |

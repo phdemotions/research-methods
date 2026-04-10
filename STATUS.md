@@ -12,7 +12,7 @@
 |-----------|-------|
 | **Version** | 0.1.0 (pre-release) |
 | **Build Status** | Clean |
-| **Open Issues** | P0: 0, P1: 1, P2: 1, P3: 0 |
+| **Open Issues** | P0: 0, P1: 0, P2: 0, P3: 0 |
 | **Repo** | github.com/phdemotions/research-methods |
 | **Commits** | 4 on main |
 
@@ -59,8 +59,6 @@
 | Phase 2B: /analyze skill | P1 |
 | Phase 2C: /process-model skill | P1 |
 | Phase 2D: /visualize skill | P1 |
-| Test raw-data-guard hook against real data/raw/ file | P1 |
-| Investigate research-intake untracked status in git | P2 |
 
 ---
 

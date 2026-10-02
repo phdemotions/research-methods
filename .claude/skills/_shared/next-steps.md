@@ -28,6 +28,8 @@
 | `/research-zeitgeist` | Skill updates | If new best practices found |
 | `/research-feedback` | Skill updates | When researcher provides input |
 
+Rows naming `/robustness`, `/report`, `/pre-submit`, `/reproduce`, `/research-audit`, `/research-zeitgeist` or `/research-feedback` describe skills this version of the plugin does not ship yet. When one of those is the natural next step, describe the step itself and say the skill is planned; offer only shipped skills as commands to run.
+
 ## How to present next steps
 
 At the end of every skill run, print a short block:

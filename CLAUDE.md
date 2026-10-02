@@ -42,4 +42,4 @@ Positron (primary). Compatible with any IDE supporting Claude Code.
 
 ## Updating
 
-Run `/research-zeitgeist` monthly to verify all framework recommendations against current best practices.
+Re-verify the framework recommendations against current best practice monthly. `/research-zeitgeist` is specified in `docs/SKILLS.md` for this but not built yet.

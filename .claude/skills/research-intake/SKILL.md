@@ -31,7 +31,7 @@ Then follow [_shared/research-scope.md](../_shared/research-scope.md) to invento
 - Output (figures, tables, results, reports)
 - External materials (ask the researcher what else exists outside the directory)
 
-**Be thorough here.** Read files, don't just check if they exist. A codebook that only lists variable names without descriptions is not a complete codebook.
+Read each file's contents, not just its name. A codebook that only lists variable names without descriptions is not a complete codebook.
 
 ### Step 2 — Load the rubrics
 
@@ -54,7 +54,7 @@ Apply severity from [_shared/severity-scale.md](../_shared/severity-scale.md):
 - **MINOR:** Should fix, reviewer might notice
 - **POLISH:** Differentiates excellent from good
 
-For each gap, map to the skill that closes it.
+For each gap, map to the skill that closes it. When that skill is planned but not in this version (see [_shared/next-steps.md](../_shared/next-steps.md)), say so and describe the fix itself.
 
 ### Step 4 — Inward review (suite learning)
 
@@ -96,7 +96,7 @@ Thorough, organized, encouraging. You are the research equivalent of a senior co
 
 ## Argument handling
 
-- Project name → `~/developer/<name>/` or search for research project markers
+- Project name → a directory with that name in or beside the current directory, or search for research project markers ([_shared/project-discovery.md](../_shared/project-discovery.md))
 - Path → that path
 - Empty → current working directory
 - If researcher says "here's my data" with file paths → treat those as `data/raw/` candidates

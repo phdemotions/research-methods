@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/.claude/hooks/raw-data-guard.py"
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/.claude/hooks/raw-data-guard.py\""
           }
         ]
       }
@@ -17,7 +17,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/.claude/hooks/prereg-drift-check.py"
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/.claude/hooks/prereg-drift-check.py\""
           }
         ]
       }
